@@ -6,6 +6,7 @@
 #include <iomanip>
 #include "SpeedTest.h"
 #include "MD5Util.h"
+#include <cfloat>
 #include <netdb.h>
 
 SpeedTest::SpeedTest(float minServerVersion):
@@ -297,7 +298,8 @@ CURL *SpeedTest::curl_setup(CURL *handler) {
         if (curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeFunc) == CURLE_OK
             && curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L) == CURLE_OK
             && curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L) == CURLE_OK
-            && curl_easy_setopt(curl, CURLOPT_USERAGENT, SPEED_TEST_USER_AGENT) == CURLE_OK){
+            && curl_easy_setopt(curl, CURLOPT_USERAGENT, SPEED_TEST_USER_AGENT) == CURLE_OK
+            && curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, "br, gzip, deflate") == CURLE_OK) {
             return curl;
         } else {
             curl_easy_cleanup(handler);
@@ -549,4 +551,3 @@ bool SpeedTest::testLatency(SpeedTestClient &client, const int sample_size, doub
     }
     return true;
 }
-
